@@ -1,0 +1,82 @@
+.organizers {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+}
+
+.organizers__add_button {
+    width: 200px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: 1px solid #fff;
+    background-color: #333;
+    color: #fff;
+    text-decoration: none;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.1s ease-in-out;
+    &:hover {
+        background-color: #ffffff2a;
+    }
+}
+
+.organizers__list {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    margin: 0;
+    width: 100%;
+    gap: 0.5rem;
+}
+
+.organizers__title {
+    margin-bottom: 1rem;
+}
+
+.organizers__list_item {
+    border: 1px solid #777;
+    padding: 1rem;
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04rem;
+    width: 100%;
+}
+
+.organizers__list_item_wrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: center;
+}
+
+.organizers__list_item_text {
+    color: #eee;
+}
+
+.organizers__list_item_buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+.organizers__list_item_button {
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: 1px solid #fff;
+    background-color: #333;
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.1s ease-in-out;
+    &:hover {
+        background-color: #ffffff2a;
+    }
+}
