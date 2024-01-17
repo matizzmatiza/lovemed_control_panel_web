@@ -29,7 +29,6 @@
     padding: 0.5rem;
     border-radius: 5px;
     border: 1px solid #fff;
-    background-color: #333;
     color: #fff;
     font-size: 1rem;
     text-decoration: none;
@@ -39,4 +38,12 @@
     &:hover {
         background-color: #ffffff2a;
     }
+}
+
+.add-organizer__btn_add {
+    background-color: #388e3c;
+}
+
+.add-organizer__btn_cancel {
+    background-color: #d32f2f;
 }

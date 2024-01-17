@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { Paths } from '../Theme';
 
 function Organizer({ user }) {
   const navigate = useNavigate();
@@ -26,7 +27,7 @@ function Organizer({ user }) {
     try {
       setLoading(true);
       // Wysłanie danych za pomocą axios do API Laravel
-      const response = await axios.post("http://127.0.0.1:8000/api/organizers", organizerData);
+      const response = await axios.post(`${Paths.serverApi}/api/organizers`, organizerData);
 
       // Przekierowanie po dodaniu organizatora
       if (response.status === 201) {
@@ -81,10 +82,10 @@ function Organizer({ user }) {
             onChange={handleChange}
           />
 
-          <button type="submit" className="add-organizer__btn">
+          <button type="submit" className="add-organizer__btn add-organizer__btn_add">
             Dodaj organizatora
           </button>
-          <Link to="/organizers" className="add-organizer__btn">
+          <Link to="/organizers" className="add-organizer__btn add-organizer__btn_cancel">
             Anuluj
           </Link>
         </form>

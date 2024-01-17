@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Paths } from '../Theme';
 
 function Login({ onLogin }) {
   const [email, setEmail] = useState('');
@@ -9,7 +10,7 @@ function Login({ onLogin }) {
   const handleLogin = async () => {
     try {
       setLoading(true);
-      const response = await axios.post('http://127.0.0.1:8000/api/login', {
+      const response = await axios.post(`${Paths.serverApi}/api/login`, {
         email,
         password,
       });

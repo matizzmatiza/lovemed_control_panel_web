@@ -5,6 +5,8 @@ import NavBar from './components/NavBar';
 import Home from './layout/Home';
 import Organizers from './layout/Organizers';
 import AddOrganizer from './layout/AddOrganizer';
+import EditOrganizer from './layout/EditOrganizer';
+import InfoOrganizer from './layout/InfoOrganizer';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -36,6 +38,8 @@ function App() {
                 <Route path="/" element={<Home user={user}/>} />
                 <Route path="/organizers" element={<Organizers user={user}/>} />
                 <Route path="/organizers/add-organizer" element={<AddOrganizer user={user}/>} />
+                <Route path="/organizers/edit-organizer/:id" element={<EditOrganizer user={user}/>} />
+                <Route path="/organizers/info-organizer/:id" element={<InfoOrganizer user={user}/>} />
               </Routes>
             </section>
           </>

@@ -13,7 +13,7 @@
     padding: 0.5rem;
     border-radius: 5px;
     border: 1px solid #fff;
-    background-color: #333;
+    background-color: #388e3c;
     color: #fff;
     text-decoration: none;
     font-size: 1rem;
@@ -35,6 +35,20 @@
 
 .organizers__title {
     margin-bottom: 1rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+}
+
+.organizers__search_input {
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    background-color: rgba(255, 255, 255, 0.721);
+    outline: none;
+    width: 300px;
 }
 
 .organizers__list_item {
@@ -57,8 +71,9 @@
     align-items: center;
 }
 
-.organizers__list_item_text {
+.organizers__list_item_text, .organizers__list_item_dot {
     color: #eee;
+    font-weight: 700;
 }
 
 .organizers__list_item_buttons {
@@ -79,4 +94,20 @@
     &:hover {
         background-color: #ffffff2a;
     }
+}
+
+.organizers__list_item_button--info {
+    background-color: #6b244f;
+}
+
+.organizers__list_item_button--reset-password {
+    background-color: #6b244f;
+}
+
+.organizers__list_item_button--edit {
+    background-color: #607d8b;
+}
+
+.organizers__list_item_button--delete {
+    background-color: #d32f2f;
 }
