@@ -3,6 +3,9 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import Alert from "../components/Alert";
 import { Paths } from '../Theme';
+import Modal from 'react-modal';
+
+Modal.setAppElement('#root');
 
 function Organizers({ user }) {
   const [organizers, setOrganizers] = useState([]);
@@ -11,6 +14,9 @@ function Organizers({ user }) {
   const [alertMessage, setAlertMessage] = useState("");
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
+  const [resetPasswordModalIsOpen, setResetPasswordModalIsOpen] = useState(false);
+  const [deleteOrganizerModalIsOpen, setDeleteOrganizerModalIsOpen] = useState(false);
+  const [selectedOrganizerId, setSelectedOrganizerId] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -28,6 +34,45 @@ function Organizers({ user }) {
 
     fetchOrganizers();
   }, []);
+
+  const openResetPasswordModal = (id) => {
+    setSelectedOrganizerId(id);
+    setResetPasswordModalIsOpen(true);
+  };
+
+  const closeResetPasswordModal = () => {
+    setSelectedOrganizerId(null);
+    setResetPasswordModalIsOpen(false);
+  };
+
+  const openDeleteOrganizerModal = (id) => {
+    setSelectedOrganizerId(id);
+    setDeleteOrganizerModalIsOpen(true);
+  };
+
+  const closeDeleteOrganizerModal = () => {
+    setSelectedOrganizerId(null);
+    setDeleteOrganizerModalIsOpen(false);
+  };
+
+  const ModalCustomStyles = {
+    content: {
+      width: '350px', 
+      height: '200px', 
+      top: '50%', 
+      left: '50%', 
+      transform: 'translate(-50%, -50%)',
+      backgroundColor: '#222',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+      gap: '1rem',
+    },
+    overlay: {
+      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    }
+  };
 
   const handleSearchChange = (e) => {
     const query = e.target.value;
@@ -60,10 +105,10 @@ function Organizers({ user }) {
         const updatedOrganizers = await axios.get(`${Paths.serverApi}/api/organizers`);
         setOrganizers(updatedOrganizers.data);
         setSearchResults(updatedOrganizers.data);
-        
         setLoading(false);
         setAlertMessage("Organizator został usunięty.");
         handleShowAlert();
+        closeDeleteOrganizerModal();
       }
     } catch (error) {
       console.error("Błąd podczas usuwania organizatora", error);
@@ -78,6 +123,7 @@ function Organizers({ user }) {
         setLoading(false);
         setAlertMessage("Hasło zostało zresetowane i wysłane do organizatora.");
         handleShowAlert();
+        closeResetPasswordModal();
       }
     }
     catch (error) {
@@ -114,15 +160,43 @@ function Organizers({ user }) {
                   </div>
                   <div className="organizers__list_item_buttons">
                     <button className="organizers__list_item_button organizers__list_item_button--info" onClick={() => navigate(`/organizers/info-organizer/${organizer.id}`, {state: {organizerId: organizer.id}})}>Informacje</button>
-                    <button className="organizers__list_item_button organizers__list_item_button--reset-password" onClick={() => handleResetPassword(organizer.id)}>Resetuj hasło</button>
+                    <button className="organizers__list_item_button organizers__list_item_button--reset-password" onClick={() => openResetPasswordModal(organizer.id)}>Resetuj hasło</button>
                     <button className="organizers__list_item_button organizers__list_item_button--edit" onClick={() => navigate(`/organizers/edit-organizer/${organizer.id}`, {state: {organizerId: organizer.id}})}>Edytuj</button>
-                    <button className="organizers__list_item_button organizers__list_item_button--delete" onClick={() => handleDeleteOrganizer(organizer.id)}>Usuń</button>
+                    <button className="organizers__list_item_button organizers__list_item_button--delete" onClick={() => openDeleteOrganizerModal(organizer.id)}>Usuń</button>
                   </div>
                 </li>
               ))}
               </ul>
             )}
           </div>
+          {/* Resetowanie hasła modal */}
+          <Modal
+            isOpen={resetPasswordModalIsOpen}
+            onRequestClose={closeResetPasswordModal}
+            contentLabel="Resetowanie hasła"
+            style={ModalCustomStyles}
+          >
+            <h3>Resetowanie hasła</h3>
+            <p>Czy na pewno chcesz zresetować hasło?</p>
+            <div className="modal__wrapper">
+              <button className="modal__button_action" onClick={() => handleResetPassword(selectedOrganizerId)}>Resetuj</button>
+              <button onClick={closeResetPasswordModal} className="modal__button_cancel">Anuluj</button>
+            </div>
+          </Modal>
+          {/* Usuwanie organizatora modal */}
+          <Modal
+            isOpen={deleteOrganizerModalIsOpen}
+            onRequestClose={closeDeleteOrganizerModal}
+            contentLabel="Usuwanie organizatora"
+            style={ModalCustomStyles}
+          >
+            <h3>Usuwanie organizatora</h3>
+            <p>Czy na pewno chcesz usunąć organizatora?</p>
+            <div className="modal__wrapper">
+              <button className="modal__button_action" onClick={() => handleDeleteOrganizer(selectedOrganizerId)}>Usuń</button>
+              <button onClick={closeDeleteOrganizerModal} className="modal__button_cancel">Anuluj</button>
+            </div>
+          </Modal>
           <Alert message={alertMessage} onClose={handleCloseAlert} show={showAlert}/>
       </section>
     );

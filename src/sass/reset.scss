@@ -89,3 +89,34 @@ body {
         transform: rotate(360deg);
     }
 } 
+
+.modal__wrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+.modal__button_action, .modal__button_cancel {
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: 1px solid #fff;
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.1s ease-in-out;
+    &:hover {
+        background-color: #ffffff2a;
+    }
+}
+
+.ReactModal__Content p {
+    text-align: center;
+}
+
+.modal__button_action {
+    background-color: #388e3c;
+}
+
+.modal__button_cancel {
+    background-color: #d32f2f;;
+}

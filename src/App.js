@@ -33,7 +33,7 @@ function App() {
         {user ? (
           <>
             <NavBar user={user} />
-            <section className='content'>
+            <section className='content' id='content'>
               <Routes>
                 <Route path="/" element={<Home user={user}/>} />
                 <Route path="/organizers" element={<Organizers user={user}/>} />
