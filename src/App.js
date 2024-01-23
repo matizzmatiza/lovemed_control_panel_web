@@ -3,10 +3,14 @@ import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import Login from './components/Login';
 import NavBar from './components/NavBar';
 import Home from './layout/Home';
-import Organizers from './layout/Organizers';
-import AddOrganizer from './layout/AddOrganizer';
-import EditOrganizer from './layout/EditOrganizer';
-import InfoOrganizer from './layout/InfoOrganizer';
+
+import Organizers from './layout/organizers/Organizers';
+import AddOrganizer from './layout/organizers/AddOrganizer';
+import EditOrganizer from './layout/organizers/EditOrganizer';
+import InfoOrganizer from './layout/organizers/InfoOrganizer';
+
+import Jurors from './layout/jurors/Jurors';
+import EditJuror from './layout/jurors/EditJuror';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -40,6 +44,8 @@ function App() {
                 <Route path="/organizers/add-organizer" element={<AddOrganizer user={user}/>} />
                 <Route path="/organizers/edit-organizer/:id" element={<EditOrganizer user={user}/>} />
                 <Route path="/organizers/info-organizer/:id" element={<InfoOrganizer user={user}/>} />
+                <Route path="/jurors" element={<Jurors user={user}/>} />
+                <Route path="/jurors/edit-juror/:id" element={<EditJuror user={user}/>} />
               </Routes>
             </section>
           </>

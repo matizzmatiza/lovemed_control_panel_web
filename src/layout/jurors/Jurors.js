@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
-import Alert from "../components/Alert";
-import { Paths } from '../Theme';
+import { useNavigate } from "react-router-dom";
+import Alert from "../../components/Alert";
+import { Paths } from '../../Theme';
 import Modal from 'react-modal';
 
 Modal.setAppElement('#root');
 
-function Organizers({ user }) {
-  const [organizers, setOrganizers] = useState([]);
+function Jurors({ user }) {
+  const [jurors, setJurors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
@@ -20,10 +20,11 @@ function Organizers({ user }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchOrganizers = async () => {
+    const fetchJurors = async () => {
       try {
-        const response = await axios.get(`${Paths.serverApi}/api/organizers`);
-        setOrganizers(response.data); 
+        setLoading(true);
+        const response = await axios.get(`${Paths.serverApi}/api/jurors`);
+        setJurors(response.data); 
         setSearchResults(response.data);
       } catch (error) {
         console.error("Błąd podczas pobierania danych z API", error);
@@ -32,7 +33,7 @@ function Organizers({ user }) {
       }
     };
 
-    fetchOrganizers();
+    fetchJurors();
   }, []);
 
   const openResetPasswordModal = (id) => {
@@ -79,7 +80,7 @@ function Organizers({ user }) {
     setSearchQuery(query);
   
     // Filtruj wyniki wyszukiwania na podstawie imienia i nazwiska
-    const filteredOrganizers = organizers.filter(
+    const filteredOrganizers = jurors.filter(
       (organizer) =>
         organizer.name.toLowerCase().includes(query.toLowerCase()) ||
         organizer.surname.toLowerCase().includes(query.toLowerCase())
@@ -103,15 +104,15 @@ function Organizers({ user }) {
       if (response.status === 200) {
         // Pobierz zaktualizowaną listę organizatorów po usunięciu
         const updatedOrganizers = await axios.get(`${Paths.serverApi}/api/organizers`);
-        setOrganizers(updatedOrganizers.data);
+        setJurors(updatedOrganizers.data);
         setSearchResults(updatedOrganizers.data);
         setLoading(false);
-        setAlertMessage("Organizator został usunięty.");
+        setAlertMessage("Juror został usunięty.");
         handleShowAlert();
         closeDeleteOrganizerModal();
       }
     } catch (error) {
-      console.error("Błąd podczas usuwania organizatora", error);
+      console.error("Błąd podczas usuwania jurora", error);
     }
   }
 
@@ -121,7 +122,7 @@ function Organizers({ user }) {
       const response = await axios.post(`${Paths.serverApi}/api/reset-password/${id}`);
       if (response.status === 200) {
         setLoading(false);
-        setAlertMessage("Hasło zostało zresetowane i wysłane do organizatora.");
+        setAlertMessage("Hasło zostało zresetowane i wysłane do jurora.");
         handleShowAlert();
         closeResetPasswordModal();
       }
@@ -132,13 +133,12 @@ function Organizers({ user }) {
   }
     return (
       <section className="organizers">
-          <Link to="/organizers/add-organizer" className="organizers__add_button">Dodaj organizatora</Link>
           <div className="organizers__wrapper">
-            <h3 className="organizers__title"><span>Aktywni organizatorzy</span>
+            <h3 className="organizers__title"><span>Aktywni jurorzy</span>
             <span>·</span>
             <input
               type="text"
-              placeholder="Wyszukaj organizatora"
+              placeholder="Wyszukaj jurora"
               value={searchQuery}
               onChange={handleSearchChange}
               className="organizers__search_input"
@@ -146,23 +146,20 @@ function Organizers({ user }) {
             </h3>
             {loading ? (
             <span className="loader"></span>
-            ) :  organizers.length === 0 ? (
+            ) :  jurors.length === 0 ? (
             <p className="organizers__empty">Brak organizatorów</p>) : (
               <ul className="organizers__list">
-              {searchResults.map((organizer) => (
-                <li key={organizer.id} className="organizers__list_item">
+              {searchResults.map((juror) => (
+                <li key={juror.id} className="organizers__list_item">
                   <div className="organizers__list_item_wrapper">
-                    <div className="organizers__list_item_text">{organizer.name} {organizer.surname}</div>
+                    <div className="organizers__list_item_text">{juror.name} {juror.surname}</div>
                     <div className="organizers__list_item_dot">·</div>
-                    <div className="organizers__list_item_text">{organizer.email}</div>
-                    <div className="organizers__list_item_dot">·</div>
-                    <div className="organizers__list_item_text">Tel. {organizer.phone_number}</div>
+                    <div className="organizers__list_item_text">{juror.email}</div>
                   </div>
                   <div className="organizers__list_item_buttons">
-                    <button className="organizers__list_item_button organizers__list_item_button--info" onClick={() => navigate(`/organizers/info-organizer/${organizer.id}`, {state: {organizerId: organizer.id}})}>Informacje</button>
-                    <button className="organizers__list_item_button organizers__list_item_button--reset-password" onClick={() => openResetPasswordModal(organizer.id)}>Resetuj hasło</button>
-                    <button className="organizers__list_item_button organizers__list_item_button--edit" onClick={() => navigate(`/organizers/edit-organizer/${organizer.id}`, {state: {organizerId: organizer.id}})}>Edytuj</button>
-                    <button className="organizers__list_item_button organizers__list_item_button--delete" onClick={() => openDeleteOrganizerModal(organizer.id)}>Usuń</button>
+                    <button className="organizers__list_item_button organizers__list_item_button--reset-password" onClick={() => openResetPasswordModal(juror.id)}>Resetuj hasło</button>
+                    <button className="organizers__list_item_button organizers__list_item_button--edit" onClick={() => navigate(`/jurors/edit-juror/${juror.id}`, {state: {organizerId: juror.id}})}>Edytuj</button>
+                    <button className="organizers__list_item_button organizers__list_item_button--delete" onClick={() => openDeleteOrganizerModal(juror.id)}>Usuń</button>
                   </div>
                 </li>
               ))}
@@ -187,11 +184,11 @@ function Organizers({ user }) {
           <Modal
             isOpen={deleteOrganizerModalIsOpen}
             onRequestClose={closeDeleteOrganizerModal}
-            contentLabel="Usuwanie organizatora"
+            contentLabel="Usuwanie jurora"
             style={ModalCustomStyles}
           >
-            <h3>Usuwanie organizatora</h3>
-            <p>Czy na pewno chcesz usunąć organizatora?</p>
+            <h3>Usuwanie jurora</h3>
+            <p>Czy na pewno chcesz usunąć jurora?</p>
             <div className="modal__wrapper">
               <button className="modal__button_action" onClick={() => handleDeleteOrganizer(selectedOrganizerId)}>Usuń</button>
               <button onClick={closeDeleteOrganizerModal} className="modal__button_cancel">Anuluj</button>
@@ -202,5 +199,5 @@ function Organizers({ user }) {
     );
   }
     
-    export default Organizers;
+export default Jurors;
     

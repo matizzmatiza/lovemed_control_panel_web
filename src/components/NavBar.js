@@ -48,6 +48,9 @@ function NavBar({ user }) {
               <NavLink to="/organizers" className={({ isActive }) => isActive ? "nav__link nav__link--active": 'nav__link'}>Organizatorzy</NavLink>
           </li>
           <li className="nav__item">
+              <NavLink to="/jurors" className={({ isActive }) => isActive ? "nav__link nav__link--active": 'nav__link'}>Jurorzy</NavLink>
+          </li>
+          <li className="nav__item">
               <NavLink to="/" onClick={handleLogout} className="nav__link">Wyloguj się</NavLink>
           </li>
       </ul>

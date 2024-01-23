@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { Paths } from '../Theme';
+import { Paths } from '../../Theme';
 
-function EditOrganizer() {
-    const [organizerData, setOrganizerData] = useState({
+function EditJuror() {
+    const [jurorData, setJurorData] = useState({
         name: '',
         surname: '',
         phone_number: '',
@@ -25,7 +25,7 @@ function EditOrganizer() {
               const response = await axios.get(`${Paths.serverApi}/api/organizers/${organizerId}`);
               const userData = response.data;
     
-              setOrganizerData({
+              setJurorData({
                 name: userData.name,
                 surname: userData.surname,
                 phone_number: userData.phone_number,
@@ -44,8 +44,8 @@ function EditOrganizer() {
     
       const handleChange = (e) => {
         const { name, value } = e.target;
-        setOrganizerData({
-          ...organizerData,
+        setJurorData({
+          ...jurorData,
           [name]: value,
         });
       };
@@ -56,8 +56,8 @@ function EditOrganizer() {
     
         try {
           // Wyślij zaktualizowane dane do API
-          await axios.put(`${Paths.serverApi}/api/organizers/${organizerId}`, organizerData);
-          navigate('/organizers');
+          await axios.put(`${Paths.serverApi}/api/organizers/${organizerId}`, jurorData);
+          navigate('/jurors');
         } catch (error) {
           console.error('Błąd podczas zapisywania danych:', error);
         } finally {
@@ -72,7 +72,7 @@ function EditOrganizer() {
         <span className="loader"></span>
        ) : (
         <div className="add-organizer__form">
-        <h3 className="add-organizer__title">Edycja organizatora <span className='edit-organizer__name'>{organizerData.name} {organizerData.surname}</span></h3>
+        <h3 className="add-organizer__title">Edycja jurora <span className='edit-organizer__name'>{jurorData.name} {jurorData.surname}</span></h3>
 
         <form onSubmit={handleSubmit} className="add-organizer__form">
           <label className="add-organizer__label">Imię*</label>
@@ -80,7 +80,7 @@ function EditOrganizer() {
             type="text"
             className="add-organizer__input"
             name="name"
-            value={organizerData.name}
+            value={jurorData.name}
             onChange={handleChange}
           />
 
@@ -89,7 +89,7 @@ function EditOrganizer() {
             type="text"
             className="add-organizer__input"
             name="surname"
-            value={organizerData.surname}
+            value={jurorData.surname}
             onChange={handleChange}
           />
 
@@ -98,7 +98,7 @@ function EditOrganizer() {
             type="text"
             className="add-organizer__input"
             name="phone_number"
-            value={organizerData.phone_number}
+            value={jurorData.phone_number}
             onChange={handleChange}
           />
 
@@ -107,20 +107,20 @@ function EditOrganizer() {
             type="text"
             className="add-organizer__input"
             name="email"
-            value={organizerData.email}
+            value={jurorData.email}
             onChange={handleChange}
           />
 
           <button type="submit" className="add-organizer__btn edit-organizer__btn_save">
             Zapisz zmiany
           </button>
-          <Link to="/organizers" className="add-organizer__btn edit-organizer__btn_cancel">
+          <Link to="/jurors" className="add-organizer__btn edit-organizer__btn_cancel">
             Anuluj
           </Link>
         </form>
         {loading && <span className="loader"></span>}
         <p className="App-info">
-          Jeżeli wprowadzisz tu jakiekolwiek zmiany poinformuj o tym niezwlocznie organizatora!
+          Jeżeli wprowadzisz tu jakiekolwiek zmiany poinformuj o tym niezwlocznie jurora!
         </p>
       </div>
         )}
@@ -128,5 +128,5 @@ function EditOrganizer() {
     );
 }
     
-export default EditOrganizer;
+export default EditJuror;
     

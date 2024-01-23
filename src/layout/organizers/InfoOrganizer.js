@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Paths } from '../Theme';
+import { Paths } from '../../Theme';
 import { useLocation, Link }  from 'react-router-dom';
 
 function InfoOrganizer() {
@@ -16,7 +16,6 @@ function InfoOrganizer() {
             setLoading(true);
             const response = await axios.get(`${Paths.serverApi}/api/organizers/${organizerId}/events`); // Zastąp 'https://twoje-api-url/uzytkownik' adresem URL twojego API
             const data = response.data;
-            console.log(data);
             setLoading(false);
             setUserData(data);
           } catch (error) {
